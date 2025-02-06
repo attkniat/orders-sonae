@@ -4,6 +4,7 @@ using OrdersSonae.Business.Commands;
 using OrdersSonae.Business.DTOs;
 using OrdersSonae.Business.Queries;
 using OrdersSonae.Business.Services;
+using OrdersSonae.Domain.Emums;
 
 namespace OrdersSonae.Controllers
 {
@@ -46,6 +47,18 @@ namespace OrdersSonae.Controllers
             {
                 return NotFound(ex.Message);
             }
+        }
+
+        [HttpPut("{id}/update-status")]
+        public IActionResult UpdateOrderStatus(Guid id, [FromBody] OrderStatus status)
+        {
+            var order = _dataStore.Orders.FirstOrDefault(o => o.Id == id);
+            if (order == null)
+                return NotFound("Order not found");
+
+            order.UpdateStatus(status);
+
+            return Ok(new { Message = "Order status updated successfully" });
         }
     }
 }

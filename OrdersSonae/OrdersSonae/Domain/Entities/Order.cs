@@ -1,4 +1,6 @@
-﻿namespace OrdersSonae.Domain.Entities
+﻿using OrdersSonae.Domain.Emums;
+
+namespace OrdersSonae.Domain.Entities
 {
     public class Order
     {
@@ -7,6 +9,7 @@
         public int Quantity { get; private set; }
         public decimal TotalAmount { get; private set; }
         public DateTime CreatedAt { get; private set; }
+        public OrderStatus Status { get; private set; }
 
         public Order(Guid productId, int quantity, decimal unitPrice)
         {
@@ -15,6 +18,12 @@
             Quantity = quantity;
             TotalAmount = quantity * unitPrice;
             CreatedAt = DateTime.UtcNow;
+            Status = OrderStatus.Pending;
+        }
+
+        public void UpdateStatus(OrderStatus status)
+        {
+            Status = status;
         }
     }
 }

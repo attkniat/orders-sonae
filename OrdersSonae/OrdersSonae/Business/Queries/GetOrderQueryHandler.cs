@@ -26,7 +26,8 @@ namespace OrdersSonae.Business.Queries
                 ProductId = order.ProductId,
                 Quantity = order.Quantity,
                 TotalAmount = order.TotalAmount,
-                CreatedAt = order.CreatedAt
+                CreatedAt = order.CreatedAt,
+                Status = order.Status.ToString(),
             };
         }
     }
