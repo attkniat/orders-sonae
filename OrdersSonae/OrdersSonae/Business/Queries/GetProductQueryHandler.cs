@@ -9,16 +9,20 @@ namespace OrdersSonae.Business.Queries
         public async Task<ProductDto> Handle(GetProductQuery request, CancellationToken cancellationToken)
         {
             var product = ProductStore.Products.FirstOrDefault(p => p.Id == request.ProductId);
-            if (product == null)
-                throw new Exception("Product not found");
 
-            return new ProductDto
+            if (product == null)
+            {
+                throw new Exception("Product not found.");
+            }
+
+            var productDto = new ProductDto
             {
                 Id = product.Id,
                 Name = product.Name,
-                Stock = product.Stock,
                 Price = product.Price
             };
+
+            return productDto;
         }
     }
 }
