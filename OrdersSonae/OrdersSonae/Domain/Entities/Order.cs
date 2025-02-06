@@ -1,12 +1,20 @@
-﻿using OrdersSonae.Domain.Enums;
-
-namespace OrdersSonae.Domain.Entities
+﻿namespace OrdersSonae.Domain.Entities
 {
     public class Order
     {
-        public Guid Id { get; set; } = new Guid();
-        public Product Product { get; set; }
-        public DateTime Created_At { get; set; }
-        public OrderStatusEnum OrderStatus { get; set; }
+        public Guid Id { get; private set; }
+        public Guid ProductId { get; private set; }
+        public int Quantity { get; private set; }
+        public decimal TotalAmount { get; private set; }
+        public DateTime CreatedAt { get; private set; }
+
+        public Order(Guid productId, int quantity, decimal unitPrice)
+        {
+            Id = Guid.NewGuid();
+            ProductId = productId;
+            Quantity = quantity;
+            TotalAmount = quantity * unitPrice;
+            CreatedAt = DateTime.UtcNow;
+        }
     }
 }
