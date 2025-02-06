@@ -1,0 +1,6 @@
+@OrdersSonae_HostAddress = http://localhost:5151
+
+GET {{OrdersSonae_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
