@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OrdersSonae.Business.Commands;
 using OrdersSonae.Business.DTOs;
 using OrdersSonae.Business.Queries;
+using OrdersSonae.Business.Services;
 
 namespace OrdersSonae.Controllers
 {
@@ -11,10 +12,12 @@ namespace OrdersSonae.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly InMemoryDataStore _dataStore;
 
-        public OrderController(IMediator mediator)
+        public OrderController(IMediator mediator, InMemoryDataStore dataStore)
         {
             _mediator = mediator;
+            _dataStore = dataStore;
         }
 
         [HttpPost]

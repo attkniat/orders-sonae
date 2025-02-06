@@ -1,16 +1,22 @@
 ﻿using MediatR;
 using OrdersSonae.Business.DTOs;
-using OrdersSonae.Domain.Entities;
+using OrdersSonae.Business.Services;
 
 namespace OrdersSonae.Business.Queries
 {
     public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, OrderDto>
     {
-        private static readonly List<Order> _orders = new();
+        private readonly InMemoryDataStore _dataStore;
+
+        public GetOrderQueryHandler(InMemoryDataStore dataStore)
+        {
+            _dataStore = dataStore;
+        }
 
         public async Task<OrderDto> Handle(GetOrderQuery request, CancellationToken cancellationToken)
         {
-            var order = _orders.FirstOrDefault(o => o.Id == request.OrderId);
+            var order = _dataStore.Orders.FirstOrDefault(o => o.Id == request.OrderId);
+
             if (order == null)
                 throw new Exception("Order not found");
 

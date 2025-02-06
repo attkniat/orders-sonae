@@ -7,13 +7,16 @@ namespace OrdersSonae.Business.Handlers
 {
     public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Guid>
     {
-        private static readonly List<Order> _orders = new();
+        private readonly InMemoryDataStore _dataStore;
 
-        public CreateOrderCommandHandler() { }
+        public CreateOrderCommandHandler(InMemoryDataStore dataStore)
+        {
+            _dataStore = dataStore;
+        }
 
         public async Task<Guid> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
-            var product = ProductStore.Products.FirstOrDefault(p => p.Id == request.ProductId);
+            var product = _dataStore.Products.FirstOrDefault(p => p.Id == request.ProductId);
 
             if (product == null)
                 throw new Exception("Product not found");
@@ -24,7 +27,7 @@ namespace OrdersSonae.Business.Handlers
             product.DecreaseStock(request.Quantity);
 
             var order = new Order(request.ProductId, request.Quantity, product.Price);
-            _orders.Add(order);
+            _dataStore.Orders.Add(order);
 
             return order.Id;
         }
